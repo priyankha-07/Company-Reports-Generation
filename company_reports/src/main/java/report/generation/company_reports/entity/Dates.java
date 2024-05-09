@@ -10,6 +10,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Dates {
-    private String startDate;
-    private String endDate;
+    private String date;
+    private String month;
+    private String year;
+    //private String endDate;
+
 }

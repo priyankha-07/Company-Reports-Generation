@@ -15,7 +15,7 @@ public class CSVWriter {
         for (Company company : companies) {
             writer.println(String.join(",", company.getName(), company.getDate(),
                     String.valueOf(company.getTotalRevenue()), String.valueOf(company.getProfitPercentage()),
-                    String.valueOf(sums.get("sumOfTotalRevenue")), String.valueOf(sums.get("sumOfProfitPercentage")))); // Use the keys to get sums
+                    String.valueOf(sums.get("sumOfTotalRevenue")), String.valueOf(sums.get("sumOfProfitPercentage"))));
         }
 
     }
