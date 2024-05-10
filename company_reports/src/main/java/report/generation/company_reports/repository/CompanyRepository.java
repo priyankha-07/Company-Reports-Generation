@@ -41,14 +41,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import report.generation.company_reports.entity.Company;
-
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
-// below code refers to send date in single paramter
+// below code refers to send date in single paramter without giving start and  enddates
 public interface CompanyRepository extends JpaRepository<Company, Integer> {
 
+    //for daily report
     @Query("SELECT c FROM Company c WHERE c.date = :date")
     List<Company> findByDate(@Param("date") String date);
 
@@ -56,6 +55,7 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
             "WHERE c.date = :date")
     Map<String, Double> getSumOfTotalRevenueAndProfitPercentageForDate(@Param("date") String date);
 
+    //for ETD report
     @Query("SELECT c FROM Company c " +
             "WHERE c.date BETWEEN :startDate AND :endDate")
     List<Company> findByDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate);
@@ -64,13 +64,14 @@ public interface CompanyRepository extends JpaRepository<Company, Integer> {
             "WHERE c.date BETWEEN :startDate AND :endDate")
     Map<String, Double> getSumOfTotalRevenueAndProfitPercentageForDateRange(@Param("startDate") String startDate, @Param("endDate") String endDate);
 
-    @Query("SELECT SUM(c.totalRevenue) AS sumOfTotalRevenue, SUM(c.profitPercentage) AS sumOfProfitPercentage FROM Company c")
-    Map<String, Double> getSumOfTotalRevenueAndProfitPercentage();
-
+    //for EOM report
     @Query("SELECT c FROM Company c " +
             "WHERE EXTRACT(YEAR FROM TO_DATE(c.date, 'DD-MM-YYYY')) = :year " +
             "AND EXTRACT(MONTH FROM TO_DATE(c.date, 'DD-MM-YYYY')) = :month")
     List<Company> findByMonthAndYear(@Param("month") String month, @Param("year") String year);
+
+    @Query("SELECT SUM(c.totalRevenue) AS sumOfTotalRevenue, SUM(c.profitPercentage) AS sumOfProfitPercentage FROM Company c")
+    Map<String, Double> getSumOfTotalRevenueAndProfitPercentage();
 
 
 }
